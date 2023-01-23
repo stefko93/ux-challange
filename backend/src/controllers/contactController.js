@@ -21,7 +21,8 @@ export const contactController = {
     },
     async modifyContact(req, res, next) {
         try {
-            const data = await contactService.addContact(req);
+            const data = await contactService.modifyContact(req);
+            console.log(req.params.id);
             res.status(200).json(data);
         }
         catch(err){

@@ -12,13 +12,13 @@ router.use(express.json());
 router.get('/contacts', contactController.getContacts);
 
 // ADD CONTACT
-router.post('/contacts', contactController.addContact);
+router.post('/contact', contactController.addContact);
 
 // UPDATE CONTACT
-router.put('/contacts:id', contactController.modifyContact);
+router.put('/contact/:id', contactController.modifyContact);
 
 // DELETE CONTACT
-router.delete('/contacts:id', contactController.deleteContact);
+router.delete('/contact/:id', contactController.deleteContact);
 
 
 export default router;
