@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import AddContentModal from "../component/AddContentModal";
+import ContactHeader from "../component/ContactHeader";
+import ContactList from "../component/ContactList";
+import Modal  from "../component/Modal";
 
 export default function ContactPage() {
   const [contacts, setContacts] = useState([]);
@@ -21,11 +25,17 @@ export default function ContactPage() {
     }
     fetchContacts()
   }, [])
-  return (<div>
-    <div>
-      {contacts && contacts.map((contact) => (
-        <p key={contact.id} >{contact.name}</p>
-      ))}
-    </div>
-  </div>);
+
+  return (
+    <div className="container mt-5 ">
+      <div className="container mt-5">
+        <ContactHeader />
+      </div>
+      <div className="container mt-5">
+        <ContactList contacts={contacts} />
+      </div>
+      <div>
+        <Modal />
+      </div>
+    </div>);
 }
