@@ -6,13 +6,11 @@ import { Link } from 'react-router-dom';
 // import SettingsIcon from '../asset/icons/Settings.svg';
 // import MenuProfilePic from '../asset/MenuProfilePic.png';
 
-import AddContentModal from './AddContentModal';
-
 export default function ContactHeader() {
   return (
     <>
-      <nav class='navbar navbar-light'>
-        <div class='container-fluid'>
+      <nav class='navbar navbar-light '>
+        <div class='container-fluid '>
           <a class='navbar-brand ms-3' href='/'>
             <h3>
               <i class='bi bi-arrow-left-square'> Back</i>

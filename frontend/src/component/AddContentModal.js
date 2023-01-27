@@ -87,7 +87,6 @@ export default function AddContentModal() {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
               />
-              <input type='name' id='avatar'  />
             </div>
             <div class="modal-footer">
               <button type='submit' data-bs-dismiss="modal" >Add</button>

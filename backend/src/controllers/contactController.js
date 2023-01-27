@@ -19,10 +19,18 @@ export const contactController = {
             next(err);
         }
     },
+    async getContactById(req, res, next) {
+        try {
+            const data = await contactService.getContactById(req);
+            res.status(200).json(data);
+        }
+        catch(err){
+            next(err);
+        }
+    },
     async modifyContact(req, res, next) {
         try {
             const data = await contactService.modifyContact(req);
-            console.log(req.params.id);
             res.status(200).json(data);
         }
         catch(err){

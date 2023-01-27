@@ -8,7 +8,14 @@ export const contactModel = {
   },
   async addContact(name, phone, email, avatar) {
     const addContactSQL = `INSERT INTO contact (name, phone, email, avatar) VALUES (?, ?, ?, ?)`;
-    const result = await db.query(addContactSQL, [name, phone, email, avatar]);
+    await db.query(addContactSQL, [name, phone, email, avatar]);
+    const getLastInserted = `SELECT * FROM contact WHERE id=LAST_INSERT_ID()`
+    const result = await db.query(getLastInserted)
+    return result.results[0];
+  },
+  async getContactById(id) {
+    const getContactSQL = `SELECT * FROM contact WHERE id=?`;
+    const result = await db.query(getContactSQL, [id]);
     return result.results;
   },
   async modifyContact(name, phone, email, avatar, id) {

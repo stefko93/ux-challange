@@ -3,13 +3,14 @@ import ContactInfo from './ContactInfo';
 
 export default function ContactItem({ contact }) {
   return (
-    <>
-        <ContactInfo name={contact.name} phone={contact.phone} avatar={contact.avatar} />
-        <div>
-            <button>icon1</button>
-            <button>icon2</button>
-            <button>icon3</button>
-        </div>
-    </>
+    <div className='position-relative'>
+      <ContactInfo
+        class='position-absolute bottom-50 start-0'
+        id={contact.id}
+        name={contact.name}
+        phone={contact.phone}
+        avatar={contact.avatar} 
+      />
+    </div>
   );
 }

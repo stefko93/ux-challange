@@ -1,63 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { saveContact, getContactById, editContact } from '../helpers/fetchFuncs';
+import { useContactContext } from '../context/useContactContext';
+import { GlobalContext } from '../context/GlobalState';
 
 export default function Modal() {
+  // const { dispatch } = useContactContext();
+  const { addContact } = useContext(GlobalContext);
+  
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState('profile.jpg');
 
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const contact = { name, phone, email, avatar};
 
-  const showErrorMessage = (message) => {
-    setErrorMessage(message);
-    setShowError(true);
-  };
-
-  const isInputValid = () => {
-    if (name === '' && phone === '' && email === '' && avatar === '') {
-      showErrorMessage('All the input fields are required.');
-      return false;
-    }
-    return true;
-  };
-
-  const contact = {name, phone, email, avatar}
-
-  const addNewContact = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_URL}/api/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contact),
-      });
-      const data = await response.json();
-      console.log(data);
-      if (data.status !== 200) {
-        showErrorMessage(data.message);
-        return;
-      }
-    } catch (err) {
-      showErrorMessage('Service unavailable, please try again later.');
-      console.log(err);
-    }
-  };
-
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    if (!isInputValid()) {
-      return;
-    }
-    addNewContact();
+    
+        addContact(contact);  
+        setName('')
+        setEmail('')
+        setPhone('')
+        setAvatar('')
+        // dispatch({type: 'ADD_CONTACT', payload: response.result[0]})
+      // if(state.mode === 'EDIT'){
+      //   let response = await editContact(contact);
+      //   dispatch({type: 'EDIT_CONTACT', payload: response})
+      
+    //}     
   };
-
+  
 
   return (
     <div>
       <div
-        class='modal fade'
+        className='modal fade'
         id='staticBackdrop'
         data-bs-backdrop='static'
         data-bs-keyboard='false'
@@ -65,52 +42,75 @@ export default function Modal() {
         aria-labelledby='staticBackdropLabel'
         aria-hidden='true'
       >
-        <div class='modal-dialog'>
-          <div class='modal-content'>
+        <div className='modal-dialog'>
+          <div className='modal-content bg-dark text-light'>
             <form className='form' onSubmit={handleSubmit}>
-              <div class='modal-header'>
-                <h5 class='modal-title' id='staticBackdropLabel'>
+              <div className='modal-header'>
+                <h5 className='modal-title' id='staticBackdropLabel'>
                   Add new contact
                 </h5>
                 <button
                   type='button'
-                  class='btn-close'
+                  className='btn-close'
                   data-bs-dismiss='modal'
                   aria-label='Close'
                 ></button>
               </div>
-              <div class='modal-body'>
-                <input
-                  type='name'
-                  id='name'
-                  placeholder='John Doe'
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                />
-                <input
-                  type='phone'
-                  id='phone'
-                  placeholder='+36 01 234 5678'
-                  onChange={(e) => setPhone(e.target.value)}
-                  value={phone}
-                />
-                <input
-                  type='email'
-                  id='email'
-                  placeholder='john@example.com'
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />
+              <div className='modal-body'>
+                <div className='mb-3'>
+                  <label for='name' className='form-label'>
+                    Name
+                  </label>
+                  <input
+                    className='form-control'
+                    type='name'
+                    id='name'
+                    placeholder='John Doe'
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                  />
+                </div>
+                <div class='mb-3'>
+                  <label for='phone' className='form-label'>
+                    Phone
+                  </label>
+                  <input
+                    className='form-control'
+                    type='phone'
+                    id='phone'
+                    placeholder='+36 01 234 5678'
+                    onChange={(e) => setPhone(e.target.value)}
+                    value={phone}
+                  />
+                </div>
+                <div className='mb-3'>
+                  <label for='email' className='form-label'>
+                    Email
+                  </label>
+                  <input
+                    className='form-control'
+                    type='email'
+                    id='email'
+                    placeholder='john@example.com'
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                  />
+                </div>
+                {/* {showError && <div className="btn btn-danger" >{errorMessage}</div>} */}
               </div>
-              <div class='modal-footer'>
+              <div className='modal-footer'>
                 <button
                   type='button'
-                  class='btn btn-secondary'
+                  className='btn btn-secondary'
                   data-bs-dismiss='modal'
                 >
                   Close
                 </button>
-                <button type='submit' class='btn btn-primary'>
+                <button
+                  type='submit'
+                  className='btn btn-primary'
+                  data-bs-dismiss='modal'
+                >
                   Add
                 </button>
               </div>

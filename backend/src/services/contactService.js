@@ -3,30 +3,37 @@ import { contactModel } from '../models/contactModel';
 export const contactService = {
     async getContacts() {
         const results = await contactModel.getAllContacts();
-        return {data: results}
+        return results
     },
     async addContact(req) {
         const { name, phone, email, avatar } = req.body;
-        await validateInput(name, phone, email, avatar);
         const result = await contactModel.addContact(name, phone, email, avatar);
-        return {data: result}
+        return result;
+    },
+    async getContactById(req) {
+        const { id } = req.body;
+        const result = await contactModel.getContactById(id);
+        return result;
     },
     async modifyContact(req) {
         const { name, phone, email, avatar } = req.body;
         const { id } = req.params;
-        await validateInput(name, phone, email, avatar);
-        const result = await contactModel.modifyContact(name, phone, email, avatar, id);
-        return {data: result}
+        await validateInput(name, phone, email);
+        await contactModel.modifyContact(name, phone, email, avatar, id);
+        const result = await contactModel.getContactById(id)
+        return result;
     },
     async deleteContact(req) {
         const { id } = req.params;
-        const result = await contactModel.deleteContact(id);
-        return {data: result}
+        const result = await contactModel.getContactById(id)
+        await contactModel.deleteContact(id)
+        return result[0];
     }
+    
 };
 
-async function validateInput(name, phone, email, avatar) {
-     if(!name || !phone || !email || !avatar){
+async function validateInput(name, phone, email) {
+     if(!name || !phone || !email ){
         throw Error('All fields are required.');
       } 
   }
