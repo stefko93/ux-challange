@@ -3,7 +3,8 @@ import React, { createContext, useReducer } from 'react';
 import AppReducer from './AppReducer';
 
 const initialState = {
-    contacts: []
+    contacts: [],
+    contact: {}
 };
 
 export const GlobalContext = createContext(initialState);
@@ -92,9 +93,10 @@ export const GlobalProvider = ({ children }) => {
             config
           );
           const body = await res.json();
+            console.log(body)
           dispatch({
             type: 'UPDATE_CONTACT',
-            payload: body.data,
+            payload: body,
           });
         } catch (err) {
           console.error(err)
@@ -126,6 +128,7 @@ export const GlobalProvider = ({ children }) => {
         <GlobalContext.Provider
           value={{
             contacts: state.contacts,
+            contact: state.contact,
             getContacts,
             addContact,
             getContactById,

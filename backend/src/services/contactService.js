@@ -7,13 +7,14 @@ export const contactService = {
     },
     async addContact(req) {
         const { name, phone, email, avatar } = req.body;
+        console.log(avatar)
         const result = await contactModel.addContact(name, phone, email, avatar);
         return result;
     },
     async getContactById(req) {
-        const { id } = req.body;
+        const { id } = req.params;
         const result = await contactModel.getContactById(id);
-        return result;
+        return result[0];
     },
     async modifyContact(req) {
         const { name, phone, email, avatar } = req.body;

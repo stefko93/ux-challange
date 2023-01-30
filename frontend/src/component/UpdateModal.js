@@ -1,25 +1,30 @@
 import React, { useState, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
-export default function Modal() {
-  const { addContact } = useContext(GlobalContext);
+export default function UpdateModal({ contact }) {
+  const { updateContact } = useContext(GlobalContext);
 
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [avatar, setAvatar] = useState(`images/Default.png`);
+  const [name, setName] = useState(contact.name);
+  const [phone, setPhone] = useState(contact.phone);
+  const [email, setEmail] = useState(contact.email);
+  const [avatar, setAvatar] = useState(`images/${contact.avatar}`);
 
-  const body = { name, phone, email, avatar };
   const fileHandler = (event) => {
     setAvatar(event.target.files[0].name);
   };
 
-  const fileUploadHandler = () => {};
+  const body = {
+    id: contact.id,
+    name,
+    phone,
+    email,
+    avatar,
+  };
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    addContact(body);
+    updateContact(body);
     setName('');
     setEmail('');
     setPhone('');
@@ -30,19 +35,19 @@ export default function Modal() {
     <div>
       <div
         className='modal fade'
-        id='staticBackdrop'
+        id='staticBack'
         data-bs-backdrop='static'
         data-bs-keyboard='false'
         tabindex='-1'
-        aria-labelledby='staticBackdropLabel'
+        aria-labelledby='staticBackLabel'
         aria-hidden='true'
       >
         <div className='modal-dialog'>
           <div className='modal-content bg-dark text-light'>
             <form className='form' onSubmit={handleSubmit}>
-              <div className='modal-header '>
+              <div className='modal-header'>
                 <h5 className='modal-title' id='staticBackdropLabel'>
-                  Add new contact
+                  Edit contact
                 </h5>
                 <button
                   type='button'
@@ -51,19 +56,15 @@ export default function Modal() {
                   aria-label='Close'
                 ></button>
               </div>
-
               <div className='modal-body'>
                 <div class='card text-center bg-dark text-light'>
                   <div className='row g-0'>
-                  
                     <img
                       src={avatar ? avatar.name : 'images/Default.png'}
                       class='rounded-circle col-md-4 text-start pe-3'
                       alt='Default'
                     />
-                    
                     <div className='col-md-7 align-self-center '>
-                    <label for="formFile" class="form-label">Add picture:</label>
                       <input
                         class='form-control bg-dark text-light'
                         type='file'
@@ -73,9 +74,9 @@ export default function Modal() {
                     </div>
                     <h1
                       class='btn btn-sm col-md-1 align-self-center bg-dark text-light'
-                      type='button' 
+                      type='button'
                     >
-                      <i class='bi bi-trash3' onClick={() => setAvatar(`images/Default.png`)}></i>
+                      <i class='bi bi-trash3'></i>
                     </h1>
                   </div>
                 </div>
@@ -88,11 +89,11 @@ export default function Modal() {
                     type='name'
                     id='name'
                     placeholder='John Doe'
-                    onChange={(e) => setName(e.target.value)}
                     value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div class='mb-3 '>
+                <div class='mb-3'>
                   <label for='phone' className='form-label '>
                     Phone
                   </label>
@@ -118,8 +119,6 @@ export default function Modal() {
                     value={email}
                   />
                 </div>
-
-                {/* {showError && <div className="btn btn-danger" >{errorMessage}</div>} */}
               </div>
               <div className='modal-footer'>
                 <button
@@ -134,7 +133,7 @@ export default function Modal() {
                   className='btn btn-primary'
                   data-bs-dismiss='modal'
                 >
-                  Add
+                  Edit
                 </button>
               </div>
             </form>

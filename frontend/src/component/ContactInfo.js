@@ -1,41 +1,33 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useContactContext } from '../context/useContactContext';
-import { deleteContactById } from '../helpers/fetchFuncs';
 import { GlobalContext } from '../context/GlobalState';
 
 export default function ContactInfo({ id, name, phone, avatar }) {
   const { deleteContact, getContactById } = useContext(GlobalContext);
-  // const handleEdit = async (id) => {
-  //   console.log(state)
-  //   dispatch({type:'EDIT_CONTACT', payload: id})
-  // };
-
-  // const handleDelete = async (id) => {
-  //   const response = await deleteContactById(id);
-  //   dispatch({ type: 'DELETE_CONTACT', payload: response.result[0] });
-  // };
 
   return (
-    <div className='card mb-3 bg-black '>
+    <div className='card mb-2 bg-black text-light '>
+      <div class='container-fluid '>
       <div class='row g-0 justify-content-center align-items-center ps-2'>
-        <div class='col-md-1 '>
-          <div>{avatar}</div>
+        <div class='col-md-1'>
+          <img
+            src={avatar ? avatar : 'images/Default.png'}
+            class='rounded-circle col-md-9'
+            alt='Default'
+          />
         </div>
-
-        <div class='col-md-8'>
+        <div class='col-md-7'>
           <h1>{name}</h1>
           <p>{phone}</p>
         </div>
-
         <div class='col-md-1 d-flex justify-content-center align-items-center pe-2'>
           <h3 className=''>
-            <i class='bi bi-mic-mute'></i>
+            <i class='bi bi-bell-slash'></i>
           </h3>
         </div>
         <div class='col-md-1 d-flex justify-content-center align-items-center pe-2'>
           <h3 className=''>
-            <i class='bi bi-telephone-inbound '></i>
+            <i class='bi bi-headphones '></i>
           </h3>
         </div>
 
@@ -52,17 +44,17 @@ export default function ContactInfo({ id, name, phone, avatar }) {
           <ul class='dropdown-menu dropdown-menu-end dropdown-menu-dark dropdown-menu-lg-start'>
             <li>
               <Link
-                class='navbar-brand ms-3'
+                class='navbar-brand ms-3 '
                 data-bs-toggle='modal'
-                data-bs-target='#staticBackdrop'
+                data-bs-target='#staticBack'
                 onClick={() => getContactById(id)}
               >
-                <i class='bi bi-pencil ms-5'></i>
+                <i class='bi bi-gear-wide ms-2'><h7> Edit</h7></i>
               </Link>
             </li>
             <li>
-              <button class='dropdown-item btn btn-sm' type='button'>
-                <i class='bi bi-star ms-5'></i>
+              <button class='dropdown-item btn btn-sm ' type='button'>
+                <i class='bi bi-heart ms-2'><h7> Favourite</h7></i>
               </button>
             </li>
             <li>
@@ -71,11 +63,12 @@ export default function ContactInfo({ id, name, phone, avatar }) {
                 type='button'
                 onClick={() => deleteContact(id)}
               >
-                <i class='bi bi-trash3 ms-5'></i>
+                <i class='bi bi-trash3 ms-2'><h7> Remove</h7></i>
               </button>
             </li>
           </ul>
         </div>
+      </div>
       </div>
     </div>
   );
