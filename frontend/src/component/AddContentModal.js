@@ -24,7 +24,7 @@ export default function AddContentModal() {
     return true;
   };
 
-  const contact = {name, phone, email, avatar}
+  const contact = { name, phone, email, avatar };
 
   const addNewContact = async () => {
     try {
@@ -36,7 +36,6 @@ export default function AddContentModal() {
         body: JSON.stringify(contact),
       });
       const data = await response.json();
-      console.log(data);
       if (data.status !== 200) {
         showErrorMessage(data.message);
         return;
@@ -57,39 +56,48 @@ export default function AddContentModal() {
   };
 
   return (
-    <div class="modal-dialog modal-dialog-centered" >
-      <div className="modal-dialog">
-        <div class="modal-content">
+    <div className='modal-dialog modal-dialog-centered'>
+      <div className='modal-dialog'>
+        <div className='modal-content'>
           <form className='form' onSubmit={handleSubmit}>
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Add contact:</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class='modal-header'>
+              <h5 className='modal-title' id='staticBackdropLabel'>
+                Add contact:
+              </h5>
+              <button
+                type='button'
+                className='btn-close'
+                data-bs-dismiss='modal'
+                aria-label='Close'
+              ></button>
             </div>
-            <div class="modal-body">
+            <div class='modal-body'>
               <input
-                  type='name'
-                  id='name'
-                  placeholder='John Doe'
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
+                type='name'
+                id='name'
+                placeholder='John Doe'
+                onChange={(e) => setName(e.target.value)}
+                value={name}
               />
               <input
-                  type='phone'
-                  id='phone'
-                  placeholder='+36 01 234 5678'
-                  onChange={(e) => setPhone(e.target.value)}
-                  value={phone}
+                type='phone'
+                id='phone'
+                placeholder='+36 01 234 5678'
+                onChange={(e) => setPhone(e.target.value)}
+                value={phone}
               />
               <input
-                  type='email'
-                  id='email'
-                  placeholder='john@example.com'
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
+                type='email'
+                id='email'
+                placeholder='john@example.com'
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </div>
-            <div class="modal-footer">
-              <button type='submit' data-bs-dismiss="modal" >Add</button>
+            <div className='modal-footer'>
+              <button type='submit' data-bs-dismiss='modal'>
+                Add
+              </button>
             </div>
             {showError && <div>{errorMessage}</div>}
           </form>

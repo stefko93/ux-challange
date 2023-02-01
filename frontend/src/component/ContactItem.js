@@ -5,11 +5,11 @@ export default function ContactItem({ contact }) {
   return (
     <div className='position-relative'>
       <ContactInfo
-        class='position-absolute bottom-50 start-0'
+        className='position-absolute bottom-50 start-0'
         id={contact.id}
         name={contact.name}
         phone={contact.phone}
-        avatar={contact.avatar} 
+        avatar={contact.avatar}
       />
     </div>
   );

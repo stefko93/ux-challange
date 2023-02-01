@@ -1,21 +1,34 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export default function Modal() {
-  const { addContact } = useContext(GlobalContext);
+  const { contact, addContact } = useContext(GlobalContext);
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [avatar, setAvatar] = useState(`images/Default.png`);
+  const [avatar, setAvatar] = useState('');
+  const [createObjectURL, setCreateObjectURL] = useState(`/images/Default.png`);
 
-  const body = { name, phone, email, avatar };
-  const fileHandler = (event) => {
-    setAvatar(event.target.files[0].name);
+  const handleUpload = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const im = event.target.files[0];
+      setAvatar(im.name);
+      setCreateObjectURL(URL.createObjectURL(im));
+      setAvatar(URL.createObjectURL(event.target.files[0]));
+    }
   };
 
-  const fileUploadHandler = () => {};
+  const handleRemoveImage = () => {
+    setCreateObjectURL(`/images/Default.png`);
+    setAvatar(null);
+  };
 
+  useEffect(() => {
+    setAvatar(document.getElementById('input-file'));
+  }, [contact]);
+
+  const body = { name, phone, email, avatar };
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -33,7 +46,7 @@ export default function Modal() {
         id='staticBackdrop'
         data-bs-backdrop='static'
         data-bs-keyboard='false'
-        tabindex='-1'
+        tabIndex='-1'
         aria-labelledby='staticBackdropLabel'
         aria-hidden='true'
       >
@@ -53,34 +66,39 @@ export default function Modal() {
               </div>
 
               <div className='modal-body'>
-                <div class='card text-center bg-dark text-light'>
+                <div className='card text-center bg-dark text-light'>
                   <div className='row g-0'>
-                  
                     <img
-                      src={avatar ? avatar.name : 'images/Default.png'}
-                      class='rounded-circle col-md-4 text-start pe-3'
+                      src={`${createObjectURL}`}
+                      className='rounded-circle col-md-4 text-start pe-3'
+                      accept='image/*'
                       alt='Default'
                     />
-                    
-                    <div className='col-md-7 align-self-center '>
-                    <label for="formFile" class="form-label">Add picture:</label>
+
+                    <div className='col-md-7 align-self-center'>
+                      <label htmlFor='input-file' className='form-label'>
+                        Add picture:
+                      </label>
                       <input
-                        class='form-control bg-dark text-light'
+                        className='form-control bg-dark text-light'
                         type='file'
-                        id='formFile'
-                        onChange={fileHandler}
+                        id='input-file'
+                        onClick={handleUpload}
                       />
                     </div>
                     <h1
-                      class='btn btn-sm col-md-1 align-self-center bg-dark text-light'
-                      type='button' 
+                      className='btn btn-sm btn-outline-light col-md-1 align-self-center bg-dark text-light'
+                      type='button'
                     >
-                      <i class='bi bi-trash3' onClick={() => setAvatar(`images/Default.png`)}></i>
+                      <i
+                        className='bi bi-trash3'
+                        onClick={handleRemoveImage}
+                      ></i>
                     </h1>
                   </div>
                 </div>
                 <div className='mb-3'>
-                  <label for='name' className='form-label'>
+                  <label htmlFor='name' className='form-label'>
                     Name
                   </label>
                   <input
@@ -92,8 +110,8 @@ export default function Modal() {
                     value={name}
                   />
                 </div>
-                <div class='mb-3 '>
-                  <label for='phone' className='form-label '>
+                <div className='mb-3 '>
+                  <label htmlFor='phone' className='form-label '>
                     Phone
                   </label>
                   <input
@@ -106,7 +124,7 @@ export default function Modal() {
                   />
                 </div>
                 <div className='mb-3'>
-                  <label for='email' className='form-label'>
+                  <label htmlFor='email' className='form-label'>
                     Email
                   </label>
                   <input
@@ -118,8 +136,6 @@ export default function Modal() {
                     value={email}
                   />
                 </div>
-
-                {/* {showError && <div className="btn btn-danger" >{errorMessage}</div>} */}
               </div>
               <div className='modal-footer'>
                 <button

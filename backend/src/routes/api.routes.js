@@ -23,5 +23,4 @@ router.put('/contacts/:id', contactController.modifyContact);
 // DELETE CONTACT
 router.delete('/contact/:id', contactController.deleteContact);
 
-
 export default router;

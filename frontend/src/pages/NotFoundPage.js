@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function NotFoundPage() {
   return (
@@ -7,8 +7,10 @@ export default function NotFoundPage() {
       <div className='mb-5'>
         <h3>This page could not be found</h3>
       </div>
-      
-      <Link to="/" className='mt-5'>Go Home</Link>
+
+      <Link to='/' className='mt-5'>
+        Go Home
+      </Link>
     </div>
   );
 }

@@ -3,18 +3,14 @@ import ContactHeader from '../component/ContactHeader';
 import ContactList from '../component/ContactList';
 import Modal from '../component/Modal';
 import UpdateModal from '../component/UpdateModal';
-import {GlobalContext} from '../context/GlobalState'
+import { GlobalContext } from '../context/GlobalState';
 
 export default function ContactPage() {
-  const {
-    dispatch,
-    contact,
-    contacts,
-    getContacts,
-  } = useContext(GlobalContext);
+  const { dispatch, contact, contacts, getContacts } =
+    useContext(GlobalContext);
 
   useEffect(() => {
-    getContacts()
+    getContacts();
   }, [dispatch]);
 
   return (

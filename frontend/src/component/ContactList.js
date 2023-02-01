@@ -1,7 +1,7 @@
 import React from 'react';
 import ContactItem from './ContactItem';
 
-export default function ContactList({contacts}) {
+export default function ContactList({ contacts }) {
   return (
     <div>
       <ul>

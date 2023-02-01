@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export default function UpdateModal({ contact }) {
@@ -8,9 +8,20 @@ export default function UpdateModal({ contact }) {
   const [phone, setPhone] = useState(contact.phone);
   const [email, setEmail] = useState(contact.email);
   const [avatar, setAvatar] = useState(`images/${contact.avatar}`);
+  const [createObjectURL, setCreateObjectURL] = useState(contact.avatar);
 
   const fileHandler = (event) => {
-    setAvatar(event.target.files[0].name);
+    if (event.target.files && event.target.files[0]) {
+      const im = event.target.files[0];
+      setAvatar(im.name);
+      setCreateObjectURL(URL.createObjectURL(im));
+      setAvatar(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setCreateObjectURL(`/images/Default.png`);
+    setAvatar(null);
   };
 
   const body = {
@@ -31,6 +42,10 @@ export default function UpdateModal({ contact }) {
     setAvatar('');
   }
 
+  useEffect(() => {
+    setAvatar(document.getElementById('input-file'));
+  }, [contact]);
+
   return (
     <div>
       <div
@@ -38,7 +53,7 @@ export default function UpdateModal({ contact }) {
         id='staticBack'
         data-bs-backdrop='static'
         data-bs-keyboard='false'
-        tabindex='-1'
+        tabIndex='-1'
         aria-labelledby='staticBackLabel'
         aria-hidden='true'
       >
@@ -57,31 +72,35 @@ export default function UpdateModal({ contact }) {
                 ></button>
               </div>
               <div className='modal-body'>
-                <div class='card text-center bg-dark text-light'>
+                <div className='card text-center bg-dark text-light'>
                   <div className='row g-0'>
                     <img
-                      src={avatar ? avatar.name : 'images/Default.png'}
-                      class='rounded-circle col-md-4 text-start pe-3'
+                      src={`${createObjectURL}`}
+                      className='rounded-circle col-md-4 text-start pe-3'
+                      accept='image/*'
                       alt='Default'
                     />
                     <div className='col-md-7 align-self-center '>
                       <input
-                        class='form-control bg-dark text-light'
+                        className='form-control bg-dark text-light'
                         type='file'
                         id='formFile'
                         onChange={fileHandler}
                       />
                     </div>
                     <h1
-                      class='btn btn-sm col-md-1 align-self-center bg-dark text-light'
+                      className='btn btn-sm col-md-1 align-self-center bg-dark text-light'
                       type='button'
                     >
-                      <i class='bi bi-trash3'></i>
+                      <i
+                        className='bi bi-trash3'
+                        onClick={handleRemoveImage}
+                      ></i>
                     </h1>
                   </div>
                 </div>
                 <div className='mb-3'>
-                  <label for='name' className='form-label'>
+                  <label htmlFor='name' className='form-label'>
                     Name
                   </label>
                   <input
@@ -93,8 +112,8 @@ export default function UpdateModal({ contact }) {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div class='mb-3'>
-                  <label for='phone' className='form-label '>
+                <div className='mb-3'>
+                  <label htmlFor='phone' className='form-label '>
                     Phone
                   </label>
                   <input
@@ -107,7 +126,7 @@ export default function UpdateModal({ contact }) {
                   />
                 </div>
                 <div className='mb-3'>
-                  <label for='email' className='form-label'>
+                  <label htmlFor='email' className='form-label'>
                     Email
                   </label>
                   <input
